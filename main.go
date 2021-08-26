@@ -11,7 +11,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	path := r.URL.Path
 	agent := r.UserAgent()
-	fmt.Printf("Remote: %s [%s] Agent=%\n", addr, method, path, agent)
+	fmt.Printf("Remote: %s [%s] Path=%s Agent=%s\n", addr, method, path, agent)
 	fileServer.ServeHTTP(w, r)
 }
 
