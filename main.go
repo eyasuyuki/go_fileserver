@@ -1,8 +1,21 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fileServer := http.FileServer(http.Dir("."))
+	addr := r.RemoteAddr
+	method := r.Method
+	path := r.URL.Path
+	agent := r.UserAgent()
+	fmt.Printf("Remote: %s [%s] Agent=%\n", addr, method, path, agent)
+	fileServer.ServeHTTP(w, r)
+}
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir(".")))
+	http.HandleFunc("/", handler)
 	http.ListenAndServe(":3000", nil)
 }
